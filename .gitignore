@@ -1,0 +1,8 @@
+# FOLDERS 
+.vscode/
+__pycache__/
+venv/
+
+# FILES
+*.pyc
+.env
