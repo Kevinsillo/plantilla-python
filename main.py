@@ -1,15 +1,16 @@
-from src.infrastructure.gestor_sqlite import GestorSqlite
-from src.infrastructure.repositories import ReservasRepositorySqlite
+from src.infrastructure.manager_sqlite import ManagerSqlite
+from src.infrastructure.repositories import UsersRepositorySqlite
 
-SQLITE_PATH = "./database/reservas.sqlite"
+SQLITE_PATH = "./database/database.sqlite"
 
 
 def main():
-    gestor_sqlite = GestorSqlite(SQLITE_PATH)
-    reservas_repository = ReservasRepositorySqlite(gestor_sqlite)
-    # reservas_repository.crear_tabla()
-    reservas = reservas_repository.obtener_reservas()
-    print(reservas)
+    manager_sqlite = ManagerSqlite(SQLITE_PATH)
+    users_repository = UsersRepositorySqlite(manager_sqlite)
+    # users_repository.migration() # Uncomment to initialize the database
+    users = users_repository.get_users()
+    for user in users:
+        print(user)
 
 
 if __name__ == "__main__":

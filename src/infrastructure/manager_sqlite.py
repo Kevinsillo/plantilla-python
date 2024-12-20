@@ -1,14 +1,16 @@
 import sqlite3
 
 
-class GestorSqlite:
-    """Clase para gestionar la conexión y consultas a una base de datos SQLite."""
+class ManagerSqlite:
+    """
+    Class to manage the connection and queries to a SQLite database.
+    """
 
     def __init__(self, db_path):
         """
-        Inicializa la clase y establece una conexión con la base de datos SQLite.
+        Initializes the class and establishes a connection to the SQLite database.
 
-        :param db_path: Path al archivo de la base de datos SQLite.
+        :param db_path: Path to the SQLite database file.
         """
         self.db_path = db_path
         self.conn = None
@@ -16,23 +18,24 @@ class GestorSqlite:
         self.connect()
 
     def connect(self):
-        """Establece la conexión con la base de datos."""
+        """
+        Establishes a connection to the SQLite database.
+        """
         try:
             self.conn = sqlite3.connect(self.db_path)
             self.conn.row_factory = sqlite3.Row
             self.cursor = self.conn.cursor()
-            print("Conexión establecida con la base de datos.")
         except sqlite3.Error as e:
-            print(f"Error al conectar con la base de datos: {e}")
+            print(f"Error connecting to the database: {e}")
             self.conn = None
             self.cursor = None
 
     def execute_query(self, query: str, params: object = None) -> None:
         """
-        Ejecuta una consulta SQL (INSERT, UPDATE, DELETE).
+        Excecute a SQL query (INSERT, UPDATE, DELETE).
 
-        :param query: Consulta SQL a ejecutar.
-        :param params: Parámetros para la consulta (opcional).
+        :param query: SQL query.
+        :param params: Parameters for the query (optional).
         :return: None
         """
         try:
@@ -44,13 +47,13 @@ class GestorSqlite:
         except sqlite3.Error as e:
             print(f"Error ejecutando la consulta: {e}")
 
-    def fetch_one(self, query: str, params: object = None) -> list:
+    def fetch_one(self, query: str, params: object = None) -> object:
         """
-        Obtiene un solo resultado de una consulta SELECT.
+        Get a single result from a SELECT query.
 
-        :param query: Consulta SELECT.
-        :param params: Parámetros para la consulta (opcional).
-        :return: Tupla con el resultado.
+        :param query: SQL query.
+        :param params: Parameters for the query (optional).
+        :return: Single result.
         """
         try:
             if params:
@@ -63,13 +66,13 @@ class GestorSqlite:
             print(f"Error al obtener datos: {e}")
             return []
 
-    def fetch_all(self, query: str, params: object = None) -> list:
+    def fetch_all(self, query: str, params: object = None) -> list[object]:
         """
-        Obtiene todos los resultados de una consulta SELECT.
+        Get a list of results from a SELECT query.
 
-        :param query: Consulta SELECT.
-        :param params: Parámetros para la consulta (opcional).
-        :return: Lista de resultados.
+        :param query: SQL query.
+        :param params: Parameters for the query (optional).
+        :return: List of results.
         """
         try:
             if params:
@@ -82,8 +85,9 @@ class GestorSqlite:
             print(f"Error al obtener datos: {e}")
             return []
 
-    def close(self):
-        """Cierra la conexión con la base de datos."""
+    def __del__(self):
+        """
+        Closes the connection to the SQLite database.
+        """
         if self.conn:
             self.conn.close()
-            print("Conexión cerrada.")
