@@ -1,8 +1,11 @@
 # FOLDERS 
-.vscode/
-__pycache__/
-venv/
+.vscode
+__pycache__
+.mypy_cache
+.venv
 
 # FILES
 *.pyc
 .env
+poetry.lock
+requirements.txt
